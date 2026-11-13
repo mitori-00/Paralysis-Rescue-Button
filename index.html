@@ -2,33 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notion ADHD Fidget Deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="color-scheme" content="light dark">
+<title>Notion ADHD Fidget Deck (Transparent & Dark Mode)</title>
 <style>
   * {
     box-sizing: border-box;
     user-select: none;
+    -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
 
-  body {
+  /* 1. html과 body 모두 투명 강제 적용 */
+  html, body {
     margin: 0;
-    padding: 16px;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+    background-color: transparent !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  body {
+    padding: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: transparent;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
-  /* 3개 버튼을 감싸는 미니멀 키보드 덱 레이아웃 */
+  /* 2. 노션이 투명을 막을 경우를 대비한 다크모드 공식 배경색(#191919) 자동 매칭 */
+  @media (prefers-color-scheme: dark) {
+    html, body {
+      background-color: #191919 !important;
+    }
+  }
+
+  /* 기본(PC/태블릿): 가로 1줄 배치 */
   .fidget-deck {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 14px;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 12px;
     width: 100%;
     max-width: 680px;
   }
@@ -36,13 +51,14 @@
   /* 공통 3D 매트 키캡 스타일 */
   .key-btn {
     position: relative;
-    height: 68px;
+    height: 66px;
     border: none;
-    border-radius: 16px;
+    border-radius: 14px;
     color: #FFFFFF;
     font-weight: 700;
     cursor: pointer;
     outline: none;
+    touch-action: manipulation;
     transition: transform 0.06s cubic-bezier(0.34, 1.56, 0.64, 1),
                 box-shadow 0.06s cubic-bezier(0.34, 1.56, 0.64, 1),
                 background 0.1s ease;
@@ -51,21 +67,20 @@
     justify-content: center;
     align-items: center;
     gap: 3px;
-    padding: 0 20px;
+    padding: 0 12px;
   }
 
   .key-btn:active,
   .key-btn.pressed {
-    transform: translateY(7px);
+    transform: translateY(6px);
   }
 
   /* 1. 오렌지: 스페이스바 (마비 구출) */
   .btn-rescue {
-    flex: 2 1 260px;
     background: linear-gradient(180deg, #E38B36 0%, #D9730D 100%);
     box-shadow: 
-      0 9px 0 #37352F, 
-      0 14px 20px rgba(0, 0, 0, 0.15),
+      0 8px 0 #37352F, 
+      0 12px 18px rgba(0, 0, 0, 0.22),
       inset 0 2px 2px rgba(255, 255, 255, 0.35);
   }
   .btn-rescue:hover {
@@ -75,17 +90,16 @@
   .btn-rescue.pressed {
     box-shadow: 
       0 2px 0 #37352F, 
-      0 4px 8px rgba(0, 0, 0, 0.15),
+      0 4px 8px rgba(0, 0, 0, 0.2),
       inset 0 1px 2px rgba(255, 255, 255, 0.2);
   }
 
   /* 2. 블루: 액션 키 (마이크로 스텝 실행) */
   .btn-focus {
-    flex: 1 1 160px;
     background: linear-gradient(180deg, #2383AE 0%, #0B6E99 100%);
     box-shadow: 
-      0 9px 0 #37352F, 
-      0 14px 20px rgba(0, 0, 0, 0.15),
+      0 8px 0 #37352F, 
+      0 12px 18px rgba(0, 0, 0, 0.22),
       inset 0 2px 2px rgba(255, 255, 255, 0.3);
   }
   .btn-focus:hover {
@@ -95,17 +109,16 @@
   .btn-focus.pressed {
     box-shadow: 
       0 2px 0 #37352F, 
-      0 4px 8px rgba(0, 0, 0, 0.15),
+      0 4px 8px rgba(0, 0, 0, 0.2),
       inset 0 1px 2px rgba(255, 255, 255, 0.2);
   }
 
   /* 3. 그린: 리셋 키 (뇌 휴식 & 심호흡) */
   .btn-rest {
-    flex: 1 1 160px;
     background: linear-gradient(180deg, #1E8F7F 0%, #0F7B6C 100%);
     box-shadow: 
-      0 9px 0 #37352F, 
-      0 14px 20px rgba(0, 0, 0, 0.15),
+      0 8px 0 #37352F, 
+      0 12px 18px rgba(0, 0, 0, 0.22),
       inset 0 2px 2px rgba(255, 255, 255, 0.3);
   }
   .btn-rest:hover {
@@ -115,16 +128,34 @@
   .btn-rest.pressed {
     box-shadow: 
       0 2px 0 #37352F, 
-      0 4px 8px rgba(0, 0, 0, 0.15),
+      0 4px 8px rgba(0, 0, 0, 0.2),
       inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  }
+
+  /* 다크모드일 때 키캡 하단 그림자 베이스가 묻히지 않도록 어두운 차콜(#0F0F0F)로 미세 보정 */
+  @media (prefers-color-scheme: dark) {
+    .btn-rescue, .btn-focus, .btn-rest {
+      box-shadow: 
+        0 8px 0 #0B0B0B, 
+        0 12px 20px rgba(0, 0, 0, 0.5),
+        inset 0 2px 2px rgba(255, 255, 255, 0.3);
+    }
+    .btn-rescue:active, .btn-rescue.pressed,
+    .btn-focus:active, .btn-focus.pressed,
+    .btn-rest:active, .btn-rest.pressed {
+      box-shadow: 
+        0 2px 0 #0B0B0B, 
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
   }
 
   .main-label {
     font-size: 14px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     white-space: nowrap;
   }
@@ -132,57 +163,76 @@
   .sub-label {
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     opacity: 0.85;
     text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* 모바일 대응 */
+  @media (max-width: 480px) {
+    body { padding: 8px; }
+    .fidget-deck {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .btn-rescue {
+      grid-column: 1 / -1;
+      height: 60px;
+    }
+    .btn-focus, .btn-rest {
+      height: 58px;
+    }
+    .main-label { font-size: 13px; }
+    .sub-label { font-size: 9px; }
   }
 </style>
 </head>
 <body>
 
   <div class="fidget-deck">
-    <!-- 버튼 1: 마비 탈출 (오렌지 스페이스바) -->
     <button class="key-btn btn-rescue" id="rescueBtn" aria-label="Paralysis Rescue">
       <span class="main-label">🚨 RESCUE</span>
       <span class="sub-label">Unfreeze [Space]</span>
     </button>
 
-    <!-- 버튼 2: 마이크로 스텝 시작 (블루 키캡) -->
     <button class="key-btn btn-focus" id="focusBtn" aria-label="One Tiny Step">
       <span class="main-label">⚡ TINY STEP</span>
-      <span class="sub-label">Just 5 mins [Enter]</span>
+      <span class="sub-label">5 mins [Enter]</span>
     </button>
 
-    <!-- 버튼 3: 뇌 휴식 / 도파민 충전 (그린 키캡) -->
     <button class="key-btn btn-rest" id="restBtn" aria-label="Brain Reset">
       <span class="main-label">🌿 BREATHE</span>
-      <span class="sub-label">Brain rest [Esc]</span>
+      <span class="sub-label">Rest [Esc]</span>
     </button>
   </div>
 
   <script>
-    const rescueBtn = document.getElementById('rescueBtn');
-    const focusBtn = document.getElementById('focusBtn');
-    const restBtn = document.getElementById('restBtn');
+    const buttons = [
+      { el: document.getElementById('rescueBtn'), code: 'Space' },
+      { el: document.getElementById('focusBtn'), code: 'Enter' },
+      { el: document.getElementById('restBtn'), code: 'Escape' }
+    ];
 
-    // 실제 키보드 단축키(Space, Enter, Esc)와 시각적 연동
+    buttons.forEach(({ el }) => {
+      el.addEventListener('touchstart', () => el.classList.add('pressed'), { passive: true });
+      el.addEventListener('touchend', () => el.classList.remove('pressed'));
+      el.addEventListener('touchcancel', () => el.classList.remove('pressed'));
+    });
+
     window.addEventListener('keydown', (e) => {
-      if (e.code === 'Space') {
+      const target = buttons.find(b => b.code === e.code);
+      if (target) {
         e.preventDefault();
-        rescueBtn.classList.add('pressed');
-      } else if (e.code === 'Enter') {
-        e.preventDefault();
-        focusBtn.classList.add('pressed');
-      } else if (e.code === 'Escape') {
-        e.preventDefault();
-        restBtn.classList.add('pressed');
+        target.el.classList.add('pressed');
       }
     });
 
     window.addEventListener('keyup', (e) => {
-      if (e.code === 'Space') rescueBtn.classList.remove('pressed');
-      if (e.code === 'Enter') focusBtn.classList.remove('pressed');
-      if (e.code === 'Escape') restBtn.classList.remove('pressed');
+      const target = buttons.find(b => b.code === e.code);
+      if (target) {
+        target.el.classList.remove('pressed');
+      }
     });
   </script>
 
