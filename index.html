@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notion Fidget Spacebar</title>
+<title>Notion ADHD Fidget Deck</title>
 <style>
-  /* 노션 임베드 시 여백 제거 및 배경 투명화 */
   * {
     box-sizing: border-box;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
+
   body {
     margin: 0;
     padding: 16px;
@@ -22,28 +22,28 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
-  /* 3D 매트 아이콘 톤을 재현한 스페이스바 디자인 */
-  .spacebar-btn {
-    position: relative;
+  /* 3개 버튼을 감싸는 미니멀 키보드 덱 레이아웃 */
+  .fidget-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
     width: 100%;
-    max-width: 340px;
+    max-width: 680px;
+  }
+
+  /* 공통 3D 매트 키캡 스타일 */
+  .key-btn {
+    position: relative;
     height: 68px;
-    /* 노션 차분한 오렌지 & 부드러운 매트 그라데이션 */
-    background: linear-gradient(180deg, #E38B36 0%, #D9730D 100%);
     border: none;
     border-radius: 16px;
-    /* 하단 그레이 베이스와 입체 그림자 (아이콘과 동일 컬러) */
-    box-shadow: 
-      0 9px 0 #37352F, 
-      0 14px 20px rgba(0, 0, 0, 0.16),
-      inset 0 2px 2px rgba(255, 255, 255, 0.35);
     color: #FFFFFF;
-    font-size: 16px;
     font-weight: 700;
-    letter-spacing: 0.08em;
     cursor: pointer;
     outline: none;
-    transition: transform 0.06s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    transition: transform 0.06s cubic-bezier(0.34, 1.56, 0.64, 1),
                 box-shadow 0.06s cubic-bezier(0.34, 1.56, 0.64, 1),
                 background 0.1s ease;
     display: flex;
@@ -51,17 +51,68 @@
     justify-content: center;
     align-items: center;
     gap: 3px;
+    padding: 0 20px;
   }
 
-  /* 마우스 올렸을 때 살짝 밝아지는 반응 */
-  .spacebar-btn:hover {
+  .key-btn:active,
+  .key-btn.pressed {
+    transform: translateY(7px);
+  }
+
+  /* 1. 오렌지: 스페이스바 (마비 구출) */
+  .btn-rescue {
+    flex: 2 1 260px;
+    background: linear-gradient(180deg, #E38B36 0%, #D9730D 100%);
+    box-shadow: 
+      0 9px 0 #37352F, 
+      0 14px 20px rgba(0, 0, 0, 0.15),
+      inset 0 2px 2px rgba(255, 255, 255, 0.35);
+  }
+  .btn-rescue:hover {
     background: linear-gradient(180deg, #E99645 0%, #DF7B17 100%);
   }
+  .btn-rescue:active,
+  .btn-rescue.pressed {
+    box-shadow: 
+      0 2px 0 #37352F, 
+      0 4px 8px rgba(0, 0, 0, 0.15),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  }
 
-  /* 클릭(또는 스페이스바 누름) 시 쏙 들어가는 3D 키캡 효과 */
-  .spacebar-btn:active,
-  .spacebar-btn.pressed {
-    transform: translateY(7px);
+  /* 2. 블루: 액션 키 (마이크로 스텝 실행) */
+  .btn-focus {
+    flex: 1 1 160px;
+    background: linear-gradient(180deg, #2383AE 0%, #0B6E99 100%);
+    box-shadow: 
+      0 9px 0 #37352F, 
+      0 14px 20px rgba(0, 0, 0, 0.15),
+      inset 0 2px 2px rgba(255, 255, 255, 0.3);
+  }
+  .btn-focus:hover {
+    background: linear-gradient(180deg, #2D8EB9 0%, #1278A4 100%);
+  }
+  .btn-focus:active,
+  .btn-focus.pressed {
+    box-shadow: 
+      0 2px 0 #37352F, 
+      0 4px 8px rgba(0, 0, 0, 0.15),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  }
+
+  /* 3. 그린: 리셋 키 (뇌 휴식 & 심호흡) */
+  .btn-rest {
+    flex: 1 1 160px;
+    background: linear-gradient(180deg, #1E8F7F 0%, #0F7B6C 100%);
+    box-shadow: 
+      0 9px 0 #37352F, 
+      0 14px 20px rgba(0, 0, 0, 0.15),
+      inset 0 2px 2px rgba(255, 255, 255, 0.3);
+  }
+  .btn-rest:hover {
+    background: linear-gradient(180deg, #279B8B 0%, #158676 100%);
+  }
+  .btn-rest:active,
+  .btn-rest.pressed {
     box-shadow: 
       0 2px 0 #37352F, 
       0 4px 8px rgba(0, 0, 0, 0.15),
@@ -69,16 +120,19 @@
   }
 
   .main-label {
+    font-size: 14px;
+    letter-spacing: 0.06em;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
   }
 
   .sub-label {
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     opacity: 0.85;
     text-transform: uppercase;
   }
@@ -86,26 +140,49 @@
 </head>
 <body>
 
-  <button class="spacebar-btn" id="rescueBtn" aria-label="Paralysis Rescue Button">
-    <span class="main-label">🚨 PARALYSIS RESCUE</span>
-    <span class="sub-label">Press to unfreeze</span>
-  </button>
+  <div class="fidget-deck">
+    <!-- 버튼 1: 마비 탈출 (오렌지 스페이스바) -->
+    <button class="key-btn btn-rescue" id="rescueBtn" aria-label="Paralysis Rescue">
+      <span class="main-label">🚨 RESCUE</span>
+      <span class="sub-label">Unfreeze [Space]</span>
+    </button>
+
+    <!-- 버튼 2: 마이크로 스텝 시작 (블루 키캡) -->
+    <button class="key-btn btn-focus" id="focusBtn" aria-label="One Tiny Step">
+      <span class="main-label">⚡ TINY STEP</span>
+      <span class="sub-label">Just 5 mins [Enter]</span>
+    </button>
+
+    <!-- 버튼 3: 뇌 휴식 / 도파민 충전 (그린 키캡) -->
+    <button class="key-btn btn-rest" id="restBtn" aria-label="Brain Reset">
+      <span class="main-label">🌿 BREATHE</span>
+      <span class="sub-label">Brain rest [Esc]</span>
+    </button>
+  </div>
 
   <script>
-    const btn = document.getElementById('rescueBtn');
+    const rescueBtn = document.getElementById('rescueBtn');
+    const focusBtn = document.getElementById('focusBtn');
+    const restBtn = document.getElementById('restBtn');
 
-    // 키보드 실제 스페이스바를 눌러도 동일하게 눌리는 디테일 추가
+    // 실제 키보드 단축키(Space, Enter, Esc)와 시각적 연동
     window.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
-        btn.classList.add('pressed');
+        rescueBtn.classList.add('pressed');
+      } else if (e.code === 'Enter') {
+        e.preventDefault();
+        focusBtn.classList.add('pressed');
+      } else if (e.code === 'Escape') {
+        e.preventDefault();
+        restBtn.classList.add('pressed');
       }
     });
 
     window.addEventListener('keyup', (e) => {
-      if (e.code === 'Space') {
-        btn.classList.remove('pressed');
-      }
+      if (e.code === 'Space') rescueBtn.classList.remove('pressed');
+      if (e.code === 'Enter') focusBtn.classList.remove('pressed');
+      if (e.code === 'Escape') restBtn.classList.remove('pressed');
     });
   </script>
 
