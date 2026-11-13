@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="light dark">
-<title>Notion ADHD Fidget Deck (Flat & Muted)</title>
+<title>Notion ADHD Fidget Deck (Enhanced Click Feedback)</title>
 <style>
   * {
     box-sizing: border-box;
@@ -25,7 +25,7 @@
   }
 
   body {
-    padding: 12px;
+    padding: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,8 +47,9 @@
     max-width: 560px;
   }
 
-  /* Brain Dump Zone과 통일된 플랫(Flat) 노션 버튼 스타일 */
+  /* 플랫 노션 버튼 스타일 + 탄성 있는 클릭 트랜지션 */
   .key-btn {
+    position: relative;
     height: 52px;
     border: none;
     border-radius: 8px;
@@ -57,7 +58,9 @@
     cursor: pointer;
     outline: none;
     touch-action: manipulation;
-    transition: background-color 0.15s ease, transform 0.08s ease;
+    transition: background-color 0.12s ease,
+                transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 0.12s ease;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -66,9 +69,38 @@
     padding: 0 12px;
   }
 
+  /* 클릭 시 꾹 들어가는 확실한 타격감 */
   .key-btn:active,
   .key-btn.pressed {
-    transform: scale(0.98);
+    transform: scale(0.92) translateY(2px);
+    filter: brightness(1.12);
+    transition: transform 0.05s ease-out, filter 0.05s ease-out;
+  }
+
+  /* 클릭 순간 외곽으로 퍼지는 파동 링 */
+  .key-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    border: 2px solid currentColor;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .key-btn.pulse::after {
+    animation: clickRipple 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes clickRipple {
+    0% {
+      transform: scale(0.96);
+      opacity: 0.65;
+    }
+    100% {
+      transform: scale(1.08, 1.18);
+      opacity: 0;
+    }
   }
 
   /* 1. 오렌지: 차분한 노션 테라코타 오렌지 */
@@ -78,9 +110,8 @@
   .btn-rescue:hover {
     background-color: #B55F18;
   }
-  .btn-rescue:active,
-  .btn-rescue.pressed {
-    background-color: #A15313;
+  .btn-rescue::after {
+    border-color: #C76B1E;
   }
 
   /* 2. 블루: 차분한 노션 슬레이트 블루 */
@@ -90,9 +121,8 @@
   .btn-focus:hover {
     background-color: #266487;
   }
-  .btn-focus:active,
-  .btn-focus.pressed {
-    background-color: #1F5574;
+  .btn-focus::after {
+    border-color: #2E7399;
   }
 
   /* 3. 그린: 차분한 노션 세이지 그린 */
@@ -102,45 +132,23 @@
   .btn-rest:hover {
     background-color: #23695C;
   }
-  .btn-rest:active,
-  .btn-rest.pressed {
-    background-color: #1C584D;
+  .btn-rest::after {
+    border-color: #2B7A6C;
   }
 
   /* 🌙 노션 다크모드 전용 뮤트 컬러 보정 */
   @media (prefers-color-scheme: dark) {
-    .btn-rescue {
-      background-color: #C97630;
-    }
-    .btn-rescue:hover {
-      background-color: #D6833D;
-    }
-    .btn-rescue:active,
-    .btn-rescue.pressed {
-      background-color: #B56725;
-    }
+    .btn-rescue { background-color: #C97630; }
+    .btn-rescue:hover { background-color: #D6833D; }
+    .btn-rescue::after { border-color: #E3924D; }
 
-    .btn-focus {
-      background-color: #3E84AB;
-    }
-    .btn-focus:hover {
-      background-color: #4A91B8;
-    }
-    .btn-focus:active,
-    .btn-focus.pressed {
-      background-color: #337499;
-    }
+    .btn-focus { background-color: #3E84AB; }
+    .btn-focus:hover { background-color: #4A91B8; }
+    .btn-focus::after { border-color: #5BA1C7; }
 
-    .btn-rest {
-      background-color: #3A8A7B;
-    }
-    .btn-rest:hover {
-      background-color: #469687;
-    }
-    .btn-rest:active,
-    .btn-rest.pressed {
-      background-color: #2F786A;
-    }
+    .btn-rest { background-color: #3A8A7B; }
+    .btn-rest:hover { background-color: #469687; }
+    .btn-rest::after { border-color: #57A899; }
   }
 
   .main-label {
@@ -163,7 +171,7 @@
 
   /* 모바일 대응 */
   @media (max-width: 480px) {
-    body { padding: 8px; }
+    body { padding: 10px; }
     .fidget-deck {
       grid-template-columns: 1fr 1fr;
       gap: 8px;
@@ -206,17 +214,33 @@
       { el: document.getElementById('restBtn'), code: 'Escape' }
     ];
 
+    function triggerFeedback(el) {
+      // 모바일 햅틱 진동 (지원 기기)
+      if (navigator.vibrate) {
+        navigator.vibrate(15);
+      }
+      // 리플 애니메이션 재실행
+      el.classList.remove('pulse');
+      void el.offsetWidth; // 리플로우 트리거
+      el.classList.add('pulse');
+    }
+
     buttons.forEach(({ el }) => {
-      el.addEventListener('touchstart', () => el.classList.add('pressed'), { passive: true });
-      el.addEventListener('touchend', () => el.classList.remove('pressed'));
-      el.addEventListener('touchcancel', () => el.classList.remove('pressed'));
+      el.addEventListener('pointerdown', () => {
+        el.classList.add('pressed');
+        triggerFeedback(el);
+      });
+      el.addEventListener('pointerup', () => el.classList.remove('pressed'));
+      el.addEventListener('pointerleave', () => el.classList.remove('pressed'));
+      el.addEventListener('pointercancel', () => el.classList.remove('pressed'));
     });
 
     window.addEventListener('keydown', (e) => {
       const target = buttons.find(b => b.code === e.code);
-      if (target) {
+      if (target && !e.repeat) {
         e.preventDefault();
         target.el.classList.add('pressed');
+        triggerFeedback(target.el);
       }
     });
 
