@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="light dark">
-<title>Notion ADHD Fidget Deck (Transparent & Dark Mode)</title>
+<title>Notion ADHD Fidget Deck (Flat & Muted)</title>
 <style>
   * {
     box-sizing: border-box;
@@ -13,7 +13,7 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* 1. html과 body 모두 투명 강제 적용 */
+  /* 투명 배경 기본 및 다크모드 대응 */
   html, body {
     margin: 0;
     padding: 0;
@@ -21,7 +21,7 @@
     height: 100%;
     background: transparent !important;
     background-color: transparent !important;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   }
 
   body {
@@ -32,7 +32,6 @@
     min-height: 100vh;
   }
 
-  /* 2. 노션이 투명을 막을 경우를 대비한 다크모드 공식 배경색(#191919) 자동 매칭 */
   @media (prefers-color-scheme: dark) {
     html, body {
       background-color: #191919 !important;
@@ -42,128 +41,121 @@
   /* 기본(PC/태블릿): 가로 1줄 배치 */
   .fidget-deck {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 10px;
     width: 100%;
-    max-width: 680px;
+    max-width: 560px;
   }
 
-  /* 공통 3D 매트 키캡 스타일 */
+  /* Brain Dump Zone과 통일된 플랫(Flat) 노션 버튼 스타일 */
   .key-btn {
-    position: relative;
-    height: 66px;
+    height: 52px;
     border: none;
-    border-radius: 14px;
+    border-radius: 8px;
     color: #FFFFFF;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
     outline: none;
     touch-action: manipulation;
-    transition: transform 0.06s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.06s cubic-bezier(0.34, 1.56, 0.64, 1),
-                background 0.1s ease;
+    transition: background-color 0.15s ease, transform 0.08s ease;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     padding: 0 12px;
   }
 
   .key-btn:active,
   .key-btn.pressed {
-    transform: translateY(6px);
+    transform: scale(0.98);
   }
 
-  /* 1. 오렌지: 스페이스바 (마비 구출) */
+  /* 1. 오렌지: 차분한 노션 테라코타 오렌지 */
   .btn-rescue {
-    background: linear-gradient(180deg, #E38B36 0%, #D9730D 100%);
-    box-shadow: 
-      0 8px 0 #37352F, 
-      0 12px 18px rgba(0, 0, 0, 0.22),
-      inset 0 2px 2px rgba(255, 255, 255, 0.35);
+    background-color: #C76B1E;
   }
   .btn-rescue:hover {
-    background: linear-gradient(180deg, #E99645 0%, #DF7B17 100%);
+    background-color: #B55F18;
   }
   .btn-rescue:active,
   .btn-rescue.pressed {
-    box-shadow: 
-      0 2px 0 #37352F, 
-      0 4px 8px rgba(0, 0, 0, 0.2),
-      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    background-color: #A15313;
   }
 
-  /* 2. 블루: 액션 키 (마이크로 스텝 실행) */
+  /* 2. 블루: 차분한 노션 슬레이트 블루 */
   .btn-focus {
-    background: linear-gradient(180deg, #2383AE 0%, #0B6E99 100%);
-    box-shadow: 
-      0 8px 0 #37352F, 
-      0 12px 18px rgba(0, 0, 0, 0.22),
-      inset 0 2px 2px rgba(255, 255, 255, 0.3);
+    background-color: #2E7399;
   }
   .btn-focus:hover {
-    background: linear-gradient(180deg, #2D8EB9 0%, #1278A4 100%);
+    background-color: #266487;
   }
   .btn-focus:active,
   .btn-focus.pressed {
-    box-shadow: 
-      0 2px 0 #37352F, 
-      0 4px 8px rgba(0, 0, 0, 0.2),
-      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    background-color: #1F5574;
   }
 
-  /* 3. 그린: 리셋 키 (뇌 휴식 & 심호흡) */
+  /* 3. 그린: 차분한 노션 세이지 그린 */
   .btn-rest {
-    background: linear-gradient(180deg, #1E8F7F 0%, #0F7B6C 100%);
-    box-shadow: 
-      0 8px 0 #37352F, 
-      0 12px 18px rgba(0, 0, 0, 0.22),
-      inset 0 2px 2px rgba(255, 255, 255, 0.3);
+    background-color: #2B7A6C;
   }
   .btn-rest:hover {
-    background: linear-gradient(180deg, #279B8B 0%, #158676 100%);
+    background-color: #23695C;
   }
   .btn-rest:active,
   .btn-rest.pressed {
-    box-shadow: 
-      0 2px 0 #37352F, 
-      0 4px 8px rgba(0, 0, 0, 0.2),
-      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    background-color: #1C584D;
   }
 
-  /* 다크모드일 때 키캡 하단 그림자 베이스가 묻히지 않도록 어두운 차콜(#0F0F0F)로 미세 보정 */
+  /* 🌙 노션 다크모드 전용 뮤트 컬러 보정 */
   @media (prefers-color-scheme: dark) {
-    .btn-rescue, .btn-focus, .btn-rest {
-      box-shadow: 
-        0 8px 0 #0B0B0B, 
-        0 12px 20px rgba(0, 0, 0, 0.5),
-        inset 0 2px 2px rgba(255, 255, 255, 0.3);
+    .btn-rescue {
+      background-color: #C97630;
     }
-    .btn-rescue:active, .btn-rescue.pressed,
-    .btn-focus:active, .btn-focus.pressed,
-    .btn-rest:active, .btn-rest.pressed {
-      box-shadow: 
-        0 2px 0 #0B0B0B, 
-        0 4px 8px rgba(0, 0, 0, 0.4),
-        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    .btn-rescue:hover {
+      background-color: #D6833D;
+    }
+    .btn-rescue:active,
+    .btn-rescue.pressed {
+      background-color: #B56725;
+    }
+
+    .btn-focus {
+      background-color: #3E84AB;
+    }
+    .btn-focus:hover {
+      background-color: #4A91B8;
+    }
+    .btn-focus:active,
+    .btn-focus.pressed {
+      background-color: #337499;
+    }
+
+    .btn-rest {
+      background-color: #3A8A7B;
+    }
+    .btn-rest:hover {
+      background-color: #469687;
+    }
+    .btn-rest:active,
+    .btn-rest.pressed {
+      background-color: #2F786A;
     }
   }
 
   .main-label {
-    font-size: 14px;
-    letter-spacing: 0.05em;
+    font-size: 13px;
+    letter-spacing: 0.04em;
     display: flex;
     align-items: center;
     gap: 5px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     white-space: nowrap;
   }
 
   .sub-label {
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     opacity: 0.85;
     text-transform: uppercase;
     white-space: nowrap;
@@ -174,16 +166,16 @@
     body { padding: 8px; }
     .fidget-deck {
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
     }
     .btn-rescue {
       grid-column: 1 / -1;
-      height: 60px;
+      height: 50px;
     }
     .btn-focus, .btn-rest {
-      height: 58px;
+      height: 48px;
     }
-    .main-label { font-size: 13px; }
+    .main-label { font-size: 12.5px; }
     .sub-label { font-size: 9px; }
   }
 </style>
