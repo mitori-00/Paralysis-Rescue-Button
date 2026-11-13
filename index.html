@@ -4,8 +4,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="color-scheme" content="light dark">
-<title>Notion ADHD Fidget Deck (Enhanced Click Feedback)</title>
+<title>Notion ADHD Fidget Deck (Web Notion Dark Mode Ready)</title>
 <style>
+  :root {
+    --bg-color: transparent;
+    --rescue-bg: #C76B1E;
+    --rescue-hover: #B55F18;
+    --rescue-ring: #C76B1E;
+    --focus-bg: #2E7399;
+    --focus-hover: #266487;
+    --focus-ring: #2E7399;
+    --rest-bg: #2B7A6C;
+    --rest-hover: #23695C;
+    --rest-ring: #2B7A6C;
+    --toggle-dot: rgba(55, 53, 47, 0.22);
+  }
+
+  /* 다크모드 클래스가 적용되거나 OS가 다크모드일 때 */
+  html.dark,
+  body.dark {
+    --bg-color: #191919;
+    --rescue-bg: #C97630;
+    --rescue-hover: #D6833D;
+    --rescue-ring: #E3924D;
+    --focus-bg: #3E84AB;
+    --focus-hover: #4A91B8;
+    --focus-ring: #5BA1C7;
+    --rest-bg: #3A8A7B;
+    --rest-hover: #469687;
+    --rest-ring: #57A899;
+    --toggle-dot: rgba(255, 255, 255, 0.25);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+      --bg-color: #191919;
+      --rescue-bg: #C97630;
+      --rescue-hover: #D6833D;
+      --rescue-ring: #E3924D;
+      --focus-bg: #3E84AB;
+      --focus-hover: #4A91B8;
+      --focus-ring: #5BA1C7;
+      --rest-bg: #3A8A7B;
+      --rest-hover: #469687;
+      --rest-ring: #57A899;
+      --toggle-dot: rgba(255, 255, 255, 0.25);
+    }
+  }
+
   * {
     box-sizing: border-box;
     user-select: none;
@@ -13,15 +59,14 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* 투명 배경 기본 및 다크모드 대응 */
   html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    background: transparent !important;
-    background-color: transparent !important;
+    background-color: var(--bg-color) !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    transition: background-color 0.2s ease;
   }
 
   body {
@@ -30,12 +75,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    html, body {
-      background-color: #191919 !important;
-    }
+    position: relative;
   }
 
   /* 기본(PC/태블릿): 가로 1줄 배치 */
@@ -103,53 +143,20 @@
     }
   }
 
-  /* 1. 오렌지: 차분한 노션 테라코타 오렌지 */
-  .btn-rescue {
-    background-color: #C76B1E;
-  }
-  .btn-rescue:hover {
-    background-color: #B55F18;
-  }
-  .btn-rescue::after {
-    border-color: #C76B1E;
-  }
+  /* 1. 오렌지 */
+  .btn-rescue { background-color: var(--rescue-bg); }
+  .btn-rescue:hover { background-color: var(--rescue-hover); }
+  .btn-rescue::after { border-color: var(--rescue-ring); }
 
-  /* 2. 블루: 차분한 노션 슬레이트 블루 */
-  .btn-focus {
-    background-color: #2E7399;
-  }
-  .btn-focus:hover {
-    background-color: #266487;
-  }
-  .btn-focus::after {
-    border-color: #2E7399;
-  }
+  /* 2. 블루 */
+  .btn-focus { background-color: var(--focus-bg); }
+  .btn-focus:hover { background-color: var(--focus-hover); }
+  .btn-focus::after { border-color: var(--focus-ring); }
 
-  /* 3. 그린: 차분한 노션 세이지 그린 */
-  .btn-rest {
-    background-color: #2B7A6C;
-  }
-  .btn-rest:hover {
-    background-color: #23695C;
-  }
-  .btn-rest::after {
-    border-color: #2B7A6C;
-  }
-
-  /* 🌙 노션 다크모드 전용 뮤트 컬러 보정 */
-  @media (prefers-color-scheme: dark) {
-    .btn-rescue { background-color: #C97630; }
-    .btn-rescue:hover { background-color: #D6833D; }
-    .btn-rescue::after { border-color: #E3924D; }
-
-    .btn-focus { background-color: #3E84AB; }
-    .btn-focus:hover { background-color: #4A91B8; }
-    .btn-focus::after { border-color: #5BA1C7; }
-
-    .btn-rest { background-color: #3A8A7B; }
-    .btn-rest:hover { background-color: #469687; }
-    .btn-rest::after { border-color: #57A899; }
-  }
+  /* 3. 그린 */
+  .btn-rest { background-color: var(--rest-bg); }
+  .btn-rest:hover { background-color: var(--rest-hover); }
+  .btn-rest::after { border-color: var(--rest-ring); }
 
   .main-label {
     font-size: 13px;
@@ -167,6 +174,27 @@
     opacity: 0.85;
     text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  /* 우측 하단 초소형 수동 테마 전환 도트 (호버 시에만 선명해짐) */
+  .theme-dot {
+    position: fixed;
+    bottom: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--toggle-dot);
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.4;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .theme-dot:hover {
+    opacity: 1;
+    transform: scale(1.3);
   }
 
   /* 모바일 대응 */
@@ -207,7 +235,41 @@
     </button>
   </div>
 
+  <!-- 수동 테마 전환 도트 (클릭 시 라이트/다크 즉시 토글) -->
+  <button class="theme-dot" id="themeToggle" title="Toggle Dark/Light Mode" aria-label="Toggle Theme"></button>
+
   <script>
+    // 1. URL 파라미터(?theme=dark 또는 ?theme=light) 및 저장된 테마 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramTheme = urlParams.get('theme');
+    const savedTheme = localStorage.getItem('fidget-deck-theme');
+    const rootEl = document.documentElement;
+
+    function applyTheme(mode) {
+      rootEl.classList.remove('dark', 'light');
+      if (mode === 'dark') {
+        rootEl.classList.add('dark');
+      } else if (mode === 'light') {
+        rootEl.classList.add('light');
+      }
+    }
+
+    if (paramTheme === 'dark' || paramTheme === 'light') {
+      applyTheme(paramTheme);
+    } else if (savedTheme) {
+      applyTheme(savedTheme);
+    }
+
+    // 2. 수동 테마 전환 도트 클릭 이벤트
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isCurrentlyDark = rootEl.classList.contains('dark') ||
+        (!rootEl.classList.contains('light') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      const nextTheme = isCurrentlyDark ? 'light' : 'dark';
+      applyTheme(nextTheme);
+      localStorage.setItem('fidget-deck-theme', nextTheme);
+    });
+
+    // 3. 버튼 클릭 & 키보드 피젯 로직
     const buttons = [
       { el: document.getElementById('rescueBtn'), code: 'Space' },
       { el: document.getElementById('focusBtn'), code: 'Enter' },
@@ -215,13 +277,11 @@
     ];
 
     function triggerFeedback(el) {
-      // 모바일 햅틱 진동 (지원 기기)
       if (navigator.vibrate) {
         navigator.vibrate(15);
       }
-      // 리플 애니메이션 재실행
       el.classList.remove('pulse');
-      void el.offsetWidth; // 리플로우 트리거
+      void el.offsetWidth;
       el.classList.add('pulse');
     }
 
